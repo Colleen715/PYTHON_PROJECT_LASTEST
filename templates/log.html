@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}日志管理{% endblock %}
+{% block body_part %}
+    <div class="row mt-3">
+        <div class="col-8 offset-2">
+            <h3 style="text-align: center">日志信息</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">时间</th>
+                    <th scope="col">等级</th>
+                    <th scope="col">函数名称</th>
+                    <th scope="col">代码位置</th>
+                    <th scope="col">日志信息</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for foo in datas %}
+                    <tr>
+                    <td>{{ foo.time }}</td>
+                    <td>{{ foo.level }}</td>
+                    <td>{{ foo.function }}</td>
+                    <td>{{ foo.line }}</td>
+                    <td>{{ foo.message }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

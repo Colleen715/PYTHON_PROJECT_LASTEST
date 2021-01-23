@@ -1,0 +1,160 @@
+{% extends 'base2.html' %}
+{% block title %}调剂信息省份分布地图{% endblock %}
+{% block static_files %}<script type="text/javascript" src="{{ url_for('static', filename='js/china.js') }}"></script>{% endblock %}
+{% block body_part %}
+    <div class="row mt-5">
+        <div id="main" style="width: 700px; height: 600px; margin: 0 auto"></div>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById("main"));
+var mapData = {{ datas |safe }}
+
+option = {
+
+    //标题
+    title: {
+        text: '调剂信息省份分布地图',
+        itemGap: 30,
+        left: 'center',
+        textStyle: {
+            color: '#000',
+
+            fontStyle: 'normal',
+
+            fontWeight: 'bold',
+
+            fontSize: 30
+        },
+
+        subtextStyle: {
+
+
+            color: '#646464',
+
+            fontStyle: 'normal',
+
+            fontWeight: 'bold',
+
+            fontSize: 16
+
+
+        }
+    },
+    //地图显示：移动鼠标，显示数据
+    tooltip: {
+        trigger: 'item',
+        formatter: function(e) {
+            console.log(e)
+            var name = e.name ? e.name : '获取中';
+            var value = e.value ? e.value : '暂无数据'
+            return `${name}:<br>调剂信息:${value} `
+        }
+
+    },
+    //图例
+    visualMap: {
+        min: 19000,
+        max: 70000,
+        left: 16,
+        bottom: 40,
+        showLabel: !0,
+        pieces: [{
+            gt: 1000,
+            label: "> 1000",
+            color: "#7f1100"
+        }, {
+            gte: 100,
+            lte: 200,
+            label: "100 - 200",
+            color: "#ff5428"
+        }, {
+            gte: 80,
+            lt: 100,
+            label: "80 - 100",
+            color: "#ed6d3d"
+        }, {
+            gt: 60,
+            lt: 80,
+            label: "60 - 80",
+            color: "#ff8c71"
+        }, {
+            gt: 40,
+            lt: 60,
+            label: "40 - 60",
+            color: "#ffd768"
+        }, {
+            gt: 20,
+            lt: 40,
+            label: "20 - 40",
+            color: "#fddea5"
+        }, {
+            gt: 0,
+            lt: 20,
+            label: "< 20",
+            color: "#fff1cf"
+        }],
+        show: !0
+    },
+    toolbox: {
+        show: false,
+        orient: 'vertical',
+        left: 'right',
+        top: 'center',
+        feature: {
+            dataView: {
+                readOnly: false
+            },
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+
+
+    geo: {
+        map: 'china',
+        zoom: 1.2,
+        label: {
+            normal: {
+
+                show: true,
+                color: '#000000'
+            },
+            emphasis: {
+                show: false,
+                color: '#292929'
+            }
+        },
+        roam: true,
+        itemStyle: {
+            normal: {
+                areaColor: '#fbfbfb',
+                borderColor: '#3399FF'
+
+            },
+            emphasis: {
+                areaColor: '#CC9933'
+            }
+        }
+    },
+    series: [{
+        type: 'map',
+        mapType: 'china',
+        geoIndex: 0,
+        label: {
+            normal: {
+                show: true
+            },
+            emphasis: {
+                show: true
+            }
+        },
+        data: mapData
+    }]
+};
+myChart.setOption(option);
+    </script>
+<p align="center"><b>同时，我们也可以发现北京市、辽宁省、广东省恰恰接受调剂院校分布最多的地区。对此，考研党可以留意通过省份及时寻找检索院校调剂信息。</b></p>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base2.html' %}
+{% block title %}调剂信息发布时间走势图{% endblock %}
+{% block body_part %}
+    <div class="row mt-5">
+        <div id="main" style="width: 1200px; height: 600px; margin: 0 auto"></div>
+    </div>
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+var myChart = echarts.init(document.getElementById("main"));
+    option = null;
+    // mock
+let data = {{ datas | safe }}, xData = [], yData = []
+
+data.map(v => {
+    xData.push(v.time)
+    yData.push(v.num)
+})
+option = {
+    title: {
+                text: '调剂信息发布时间走势图',
+                left: 'center'
+            },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross',
+            label: {
+                backgroundColor: '#6a7985',
+                fontSize: 12
+            },
+        },
+        textStyle: { fontSize: '100%' },
+        formatter: v => {
+            return `
+              <div class='u-p-2'>
+                <div class='fz-10'>日期：${v[0].axisValue}</div>
+                <div class='fz-10 u-mt-2'>发布热度：${v[0].value}</div>
+              </div>
+            `
+        }
+    },
+   xAxis: {
+        type: 'category', boundaryGap: false, // 两边留白
+        axisLabel: { textStyle: { fontSize:14}},
+        data: xData,
+        axisLine: { lineStyle: { color:'#000', width:1}},
+        splitLine: { lineStyle: { type: 'dashed', color: 'rgba(255,255,255,.2)',width:1}, show: true },
+    },
+    yAxis:{
+        nameTextStyle: { color:'#000', align:'right', padding:[0,10,0,0], fontSize: '100%'},
+        axisLabel: { textStyle: { color: '#000', fontSize: '100%' }, margin: 8 },
+        axisLine: { lineStyle: { color:'#000', width:1 }},
+        splitLine: { lineStyle: { type: 'solid', color: 'rgba(255,255,255,.2)',width:1 }, show: true }
+    },
+    series: {
+        name: '', type: 'line', stack: '',
+        // 修改的是线下区域的颜色
+        areaStyle: { color:  new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            offset: 0,
+            color: 'rgba(236, 99, 123, .5)'
+        }, {
+            offset: 1,
+            color: 'rgba(102, 212, 250,.3)'
+        }])},
+        // 修改的是线的颜色
+        lineStyle: { color: {
+            type: 'linear',x: 0, y: 1, x2: 0, y2: 0,
+            // 0% 处的颜色                           // 100% 处的颜色
+            colorStops: [{ offset: 0, color: '#3a76f6' },{ offset: .25, color: '#66d4fa' }, { offset: .75, color: '#f8d470'}, { offset: 1, color: '#ec637b'}],
+            global: false // 缺省为 false
+        },width:2},
+        //图例样式，默认空心圆，设为none是实心，还有'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none'
+        symbol:'none',
+        data: yData,
+    }
+};
+    myChart.setOption(option);
+</script>
+<style>
+body{text-align:center}
+</style>
+<div align="center">
+    <table align="center">
+        <thead>
+        <tr>
+            <th>2020年考研成绩公布时间</th>
+            <th>2020年考研国家线公布时间</th>
+            <th>2020年考研复试调剂时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>2月左右</td>
+            <td>3月下旬-4月初</td>
+            <td>集中于3-4月份</td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+    <p align="center">
+        <b>考研调剂信息发布数量有两个明显的高峰值</b>
+    </p>
+    <p align="center">
+        （1）二月中下旬考研成绩公布阶段，所以各高校、各媒体陆续发布与调剂相关的信息；
+        （2）四月份左右，各高校陆续进入考研复试调剂阶段，有关调剂的信息也陆续增多。
+    </p>
+    </div>
+</div>
+{% endblock %}

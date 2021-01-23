@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}注册{% endblock %}
+
+{% block body_part %}
+    <div class="row mt-3">
+        <div class="col-lg-4 offset-4">
+            <h2 style="text-align: center">用户注册</h2>
+            <form method="post">
+                <div class="form-group">
+                    <input type="text" name="name" class="form-control" id="exampleInputPassword1" placeholder="用户名">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword1"
+                           placeholder="密码">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="re_password" class="form-control" id="exampleInputPassword1"
+                           placeholder="确认密码">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">注册</button>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

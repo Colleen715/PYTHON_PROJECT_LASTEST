@@ -1,0 +1,35 @@
+{% extends 'base2.html' %}
+{% block title %}调剂专业分布{% endblock %}
+{% block static_files %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/wordcloud2.js') }}"></script>
+{% endblock %}
+{% block body_part %}
+    <div class="row mt-5">
+        <div id="con" style="width: 500px; height: 500px; margin: 0 auto;">
+            <h3 style="text-align: center">调剂专业分布图</h3>
+            <div id="main" style="width: 500px; height: 500px; margin: 0 auto;"></div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+var wordFreqData = {{ datas | safe }}
+    var canvas = document.getElementById('main');
+    var options = eval({
+            "list": wordFreqData,//或者[['各位观众',45],['词云', 21],['来啦!!!',13]],只要格式满足这样都可以
+            "gridSize": 10, // 密集程度 数字越小越密集
+            "weightFactor": 200, // 字体大小=原始大小*weightFactor
+            "maxFontSize": 120, //最大字号
+            "minFontSize": 30, //最小字号
+            "fontWeight": 'normal', //字体粗细
+            "fontFamily": 'Times, serif', // 字体
+            "color": 'random-light', // 字体颜色 'random-dark' 或者 'random-light'
+            "backgroundColor": '#fff', // 背景颜色
+            "rotateRatio": 0 // 字体倾斜(旋转)概率，1代表总是倾斜(旋转)
+        });
+    //生成
+    WordCloud(canvas, options);
+
+    </script>
+{% endblock %}

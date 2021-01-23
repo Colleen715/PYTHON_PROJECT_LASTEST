@@ -1,0 +1,53 @@
+{% extends 'base2.html' %}
+
+{% block body_part %}
+    <div class="row mt-5">
+        <div id="main" style="width: 600px; height: 600px; margin: 0 auto">sssssss</div>
+    </div>
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+var myChart = echarts.init(document.getElementById("main"));
+    option = null;
+    option = {
+        title: {
+            text: '学校层次分布图',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: {{ index | safe }}
+        },
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                data: {{ datas | safe }},
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+<style>
+body{text-align:center}
+</style>
+<div>
+    <p>
+        <b>接受调剂学校层次以双非学校为主，211学校其次，985学校最后。</b>
+    </p>
+</div>
+{% endblock %}
