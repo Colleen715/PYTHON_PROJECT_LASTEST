@@ -351,5 +351,4 @@ if __name__ == '__main__':
         '%(asctime)s-%(levelname)s-%(filename)s-%(funcName)s-%(lineno)s-%(message)s')
     handler.setFormatter(logging_format)
     app.logger.addHandler(handler)
-
-    app.run(host='127.0.0.1',port=8000,debug=True)
+    app.run()
